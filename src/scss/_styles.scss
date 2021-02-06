@@ -1,0 +1,254 @@
+$text-shadow: 0 1px 0 rgba(0, 0, 0, 0.05) !default;
+$color-btn-shadow: 0 1px 0 rgba(27, 31, 35, .04);
+$color-btn-inset-shadow: inset 0 1px 0 hsla(0, 0%, 100%, .25);
+
+.bg-primary {
+  background-color: $primary;
+}
+
+.bg-dark {
+  background-color: $gray-500;
+}
+
+.bg-light {
+  background-color: $gray-200;
+}
+
+.navbar-brand,
+.nav-link {
+  text-shadow: $text-shadow
+}
+
+.btn {
+  text-shadow: $text-shadow;
+  box-shadow: none;
+
+  &:focus, &:active, &.focus {
+    box-shadow: none !important;
+  }
+
+  &.btn-secondary,
+  &.btn-default,
+  &.btn-secondary:active,
+  &.btn-secondary.active,
+  &.btn-secondary:focus,
+  &.btn-secondary:not(:disabled):not(.disabled):active,
+  &.btn-secondary:not(:disabled):not(.disabled).active,
+  .show > &.btn-secondary.dropdown-toggle {
+    color: $primary;
+  }
+
+  &.btn-default:not(:disabled):hover {
+    border: 1px solid darken($gray-200, 5);
+    background-color: $gray-200;
+  }
+
+  &.btn-default:not(:disabled):active,
+  &.btn-default:not(:disabled).active {
+    border: 1px solid darken($gray-300, 5);
+    background-color: $gray-300;
+  }
+
+  &.btn-default.disabled:active,
+  &.btn-default.disabled.active {
+    color: $primary;
+    border-color: transparent;
+    background-color: inherit;
+  }
+
+  &.btn-outline-secondary {
+    border-color: $gray-200;
+    color: $gray-200;
+  }
+
+  &-group > .btn {
+    cursor: pointer;
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .btn-#{$color} {
+    border-color: darken($value, 5);
+  }
+}
+
+button.close {
+  outline: 0;
+}
+
+.text-secondary {
+  color: $gray-500 !important;
+}
+
+.bg-primary,
+.bg-success,
+.bg-info,
+.bg-warning,
+.bg-danger,
+.bg-dark {
+  h1, h2, h3, h4, h5, h6 {
+    color: $white;
+  }
+}
+
+.dropdown-menu {
+  .dropdown-header {
+    color: $gray-600;
+  }
+}
+
+.navbar.bg-dark {
+  background-color: darken($primary, 12) !important;
+}
+
+$custom-input-active-box-shadow: inset 0 0 2px $gray-700;
+
+.form-control:not([disabled]):not([readonly]) {
+  &:hover {
+    background-color: $gray-200;
+  }
+
+  &:focus {
+    background-color: $white;
+  }
+}
+
+.form-control {
+  &:disabled {
+    box-shadow: none;
+  }
+}
+
+.form-control {
+  &.is-valid,
+  &.is-invalid {
+    &:focus {
+      box-shadow: $custom-input-active-box-shadow;
+    }
+  }
+
+  &:focus {
+    box-shadow: $custom-input-active-box-shadow;
+  }
+}
+
+.custom-file-input,
+.custom-select {
+  &:focus, &:active {
+    box-shadow: $custom-input-active-box-shadow;
+
+    & ~ .custom-file-label {
+      box-shadow: $custom-input-active-box-shadow;
+    }
+  }
+}
+
+.card.bg-secondary {
+  .card-header, .card-text {
+    color: $gray-800;
+  }
+}
+
+.modal {
+  background-color: rgba(0, 0, 0, .2);
+  overflow-y: scroll;
+
+  .modal-content {
+    border: 0;
+  }
+
+  .modal-header {
+    background-color: $primary;
+
+    * {
+      color: $gray-200;
+    }
+  }
+}
+
+@mixin custom-button-outline-variant($color, $color-hover: color-yiq($color), $active-background: $color, $active-border: $color) {
+  $outline-btn-border-color: rgba(27, 31, 35, .15);
+  $outline-btn-background-color: #fafbfc;
+
+  color: $color;
+  border-color: $outline-btn-border-color;
+  box-shadow: $color-btn-shadow, $color-btn-inset-shadow;
+  background-color: $outline-btn-background-color;
+
+  @include hover {
+    color: $color;
+    background-color: darken($outline-btn-background-color, 3);
+    border-color: darken($outline-btn-border-color, 3);
+  }
+
+  &:focus,
+  &.focus {
+    box-shadow: 0 0 0 $btn-focus-width rgba($color, .5);
+  }
+
+  &.disabled,
+  &:disabled {
+    color: $color;
+    background-color: transparent;
+  }
+
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > &.dropdown-toggle {
+    color: $color;
+    background-color: darken($outline-btn-background-color, 6);
+    border-color: darken($outline-btn-border-color, 6);
+
+    &:focus {
+      // Avoid using mixin so we can pass custom focus shadow properly
+      @if $enable-shadows and $btn-active-box-shadow != none {
+        box-shadow: $btn-active-box-shadow, 0 0 0 $btn-focus-width rgba($color, .5);
+      } @else {
+        box-shadow: 0 0 0 $btn-focus-width rgba($color, .5);
+      }
+    }
+  }
+}
+
+$outline-theme-colors: map-remove($theme-colors, "secondary", "light");
+
+@each $color, $value in $outline-theme-colors {
+  .btn-outline-#{$color} {
+    @include custom-button-outline-variant($value);
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .btn-#{$color} {
+    box-shadow: $color-btn-shadow;
+
+    &:not(:disabled):not(.disabled):hover {
+      background: lighten($value, 4);
+      border-color: darken($value, 1);
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active,
+    .show > &.dropdown-toggle,
+    .show > &.dropdown-toggle:focus:hover {
+      background: darken($value, 6);
+      border-color: darken($value, 8);
+    }
+  }
+}
+
+.dropdown-menu {
+  box-shadow: $dropdown-box-shadow;
+}
+
+*, .btn, .form-control {
+  font-weight: 300;
+}
+
+@each $color, $value in $theme-colors {
+  .badge-#{$color} {
+    background-color: theme-color-level($color, $badge-bg-level);
+    color: theme-color-level($color, $badge-color-level);
+    border: 1px solid theme-color-level($color, $badge-border-level);
+  }
+}
