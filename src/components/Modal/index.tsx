@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useMemo, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import BaseModal from '@material-ui/core/Modal';
 import Draggable from 'react-draggable';
@@ -43,11 +43,26 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
   dialogClassName = '',
   scrollable = false,
   size = 'md',
+  className = '',
   onClose,
   onConfirm,
 }) => {
   const draggableElement = useRef(null);
-  const [classNames, setClassNames] = useState<Array<string>>(['modal-dialog', 'cayenne-dialog']);
+  const modalClassName = useMemo(() => {
+    const currentClassNames = ['modal-dialog', 'cayenne-dialog'];
+    currentClassNames.splice(1, 0, `modal-${size}`);
+    if (centered) {
+      currentClassNames.splice(1, 0, 'modal-dialog-centered');
+    }
+    if (scrollable) {
+      currentClassNames.splice(-1, 0, 'modal-dialog-scrollable');
+    }
+    if (dialogClassName) {
+      dialogClassName.split(/\s+/).forEach((className) => currentClassNames.push(className));
+    }
+    className.trim().split(/\s+/).forEach((key) => currentClassNames.push(key));
+    return currentClassNames.join(' ');
+  }, [className, centered, size, scrollable, dialogClassName]);
 
   const handleClose = () => {
     if (onClose && typeof onClose === 'function') {
@@ -90,7 +105,7 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
 
   const renderModalBody = () => {
     return (
-      <div className={classNames.join(' ')} tabIndex={-1}>
+      <div className={modalClassName} tabIndex={-1}>
         <div className="modal-content">
           {
             modalTitle && (
@@ -135,21 +150,6 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
       </div>
     );
   };
-
-  useEffect(() => {
-    const currentClassNames = Array.from(classNames);
-    currentClassNames.splice(1, 0, `modal-${size}`);
-    if (centered) {
-      currentClassNames.splice(1, 0, 'modal-dialog-centered');
-    }
-    if (scrollable) {
-      currentClassNames.splice(-1, 0, 'modal-dialog-scrollable');
-    }
-    if (dialogClassName) {
-      dialogClassName.split(/\s+/).forEach((className) => currentClassNames.push(className));
-    }
-    setClassNames(currentClassNames);
-  }, [centered, size, scrollable, dialogClassName]);
 
   return (
     <div>
