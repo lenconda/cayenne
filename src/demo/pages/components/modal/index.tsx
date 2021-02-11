@@ -7,6 +7,8 @@ const ModalPage: React.FC = () => {
     <section>
       <h2>Modal</h2>
       <div className="demo"></div>
+      <button className="btn btn-primary" onClick={() => Modal.confirm()}>confirm</button>
+      {/* <Confirm /> */}
     </section>
   );
 };

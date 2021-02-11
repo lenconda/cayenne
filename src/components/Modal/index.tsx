@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
 import BaseModal from '@material-ui/core/Modal';
 import Draggable from 'react-draggable';
 
@@ -21,7 +22,7 @@ export interface ModalProps extends
   onConfirm?: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({
+const ModalComponent: React.FC<ModalProps> = ({
   open = false,
   modalTitle,
   draggable = false,
@@ -66,12 +67,23 @@ const Modal: React.FC<ModalProps> = ({
       <div className={classNames.join(' ')} tabIndex={-1}>
         <div className="modal-content">
           {
-            modalTitle && <div className={`modal-header${draggable ? ' cayenne-draggable-modal' : ''}`} ref={draggableElement}>
-              {renderTitle()}
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleClose}>
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
+            modalTitle && (
+              <div
+                className={`modal-header${draggable ? ' cayenne-draggable-modal' : ''}`}
+                ref={draggableElement}
+              >
+                {renderTitle()}
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                  onClick={handleClose}
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+            )
           }
           <div className="modal-body">
             {children}
@@ -143,4 +155,26 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-export default Modal;
+export interface ConfirmModalProps {
+  title?: string;
+}
+
+const confirm = async ({
+  title,
+}: ConfirmModalProps) => {
+  const container = document.createElement('div');
+  document.body.appendChild(container);
+  ReactDOM.render(
+    <ModalComponent
+      open={true}
+      closeOnBackdropClick={false}
+      onClose={() => {
+        ReactDOM.unmountComponentAtNode(container);
+        container.remove();
+      }}
+    />,
+    container,
+  );
+};
+
+export default Object.assign(ModalComponent, { confirm });
