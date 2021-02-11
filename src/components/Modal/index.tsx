@@ -2,16 +2,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import BaseModal from '@material-ui/core/Modal';
 import Draggable from 'react-draggable';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import * as icons from '@fortawesome/free-solid-svg-icons';
-import { faBell } from '@fortawesome/free-regular-svg-icons';
+import Icon, { IconName, IconType } from '../Icon';
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
 
-export interface ModalProps extends
+export interface ModalIcon {
+  name: IconName;
+  type?: IconType;
+}
+
+export interface ModalComponentProps extends
   React.DetailedHTMLProps<React.BaseHTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   open?: boolean;
-  icon?: React.ReactNode;
+  icon?: IconName | React.ReactNode | ModalIcon;
   modalTitle?: string | React.ReactNode;
   draggable?: boolean;
   closeOnBackdropClick?: boolean;
@@ -26,7 +29,7 @@ export interface ModalProps extends
   onConfirm?: () => void;
 }
 
-const ModalComponent: React.FC<ModalProps> = ({
+const ModalComponent: React.FC<ModalComponentProps> = ({
   open = false,
   icon,
   modalTitle,
@@ -58,14 +61,25 @@ const ModalComponent: React.FC<ModalProps> = ({
     }
   };
 
+  const renderIcon = () => {
+    if (typeof icon === 'string') {
+      return <Icon name={icon as IconName} className="icon" />;
+    } else if (React.isValidElement(icon)) {
+      return <>{React.Children.map(icon, (child) => child)}</>;
+    } else {
+      const { name, type = 'regular' } = icon as ModalIcon;
+      if (name && type) {
+        return <Icon name={name as IconName} type={type as IconType} className="icon" />;
+      }
+    }
+  };
+
   const renderTitle = () => {
     if (!modalTitle) { return null }
     if (typeof modalTitle === 'string') {
       return (
         <h6 className="modal-title">
-          {
-            icon && React.Children.map(icon, (child) => child)
-          }
+          {icon && renderIcon()}
           {modalTitle}
         </h6>
       );
@@ -181,7 +195,6 @@ const confirm = async ({
       open={true}
       closeOnBackdropClick={false}
       modalTitle={title}
-      icon={<FontAwesomeIcon icon={icons.faExclamationTriangle} />}
       onClose={() => {
         ReactDOM.unmountComponentAtNode(container);
         container.remove();

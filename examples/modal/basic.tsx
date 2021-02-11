@@ -8,7 +8,11 @@ const Basic: React.FC = () => {
   return (
     <div>
       <button className="btn btn-primary" onClick={() => setOpen(true)}>Open Modal</button>
-      <Modal open={open} onClose={() => setOpen(false)} />
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        modalTitle="Basic Usage"
+      >This is a basic usage modal.</Modal>
     </div>
   );
 };

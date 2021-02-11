@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "es2020",
+    "module": "commonjs",
     "strict": true,
     "jsx": "react",
-    "rootDir": "./src",
-    "outDir": "./lib",
+    "rootDir": ".",
     "typeRoots": [
       "typings/**/*.d.ts",
       "./node_modules/@types/**/*",
@@ -38,7 +37,7 @@
     ]
   },
   "compileOnSave": false,
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "examples/**/*", "docs/**/*"],
   "exclude": [
     "config/**/*",
     "lib/**/*",
@@ -46,7 +45,6 @@
     "__tests__/**/*",
     "src/**/*.js",
     "typings/**/*.d.ts",
-    "node_modules",
-    "examples"
+    "node_modules"
   ]
 }

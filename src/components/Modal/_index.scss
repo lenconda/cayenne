@@ -2,5 +2,9 @@
   .modal-header {
     cursor: default;
     user-select: none;
+
+    .icon {
+      margin-right: 10px;
+    }
   }
 }

@@ -1,9 +1,9 @@
-import Modal, { ModalProps, ModalSize } from '@components/Modal';
+import Modal, { ModalComponentProps, ModalSize } from '@components/Modal';
 
 export {
   // components
   Modal,
   // interfaces
-  ModalProps,
+  ModalComponentProps as ModalProps,
   ModalSize,
 };

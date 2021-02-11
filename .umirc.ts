@@ -5,7 +5,7 @@ export default defineConfig({
   outputPath: 'docs/dist',
   mode: 'site',
   publicPath: '/',
-  base: 'docs',
+  base: '/',
   hash: true,
   sass: {},
   locales: [
