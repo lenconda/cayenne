@@ -2,12 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import BaseModal from '@material-ui/core/Modal';
 import Draggable from 'react-draggable';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import * as icons from '@fortawesome/free-solid-svg-icons';
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
 
 export interface ModalProps extends
   React.DetailedHTMLProps<React.BaseHTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   open?: boolean;
+  icon?: React.ReactNode;
   modalTitle?: string | React.ReactNode;
   draggable?: boolean;
   closeOnBackdropClick?: boolean;
@@ -24,6 +27,7 @@ export interface ModalProps extends
 
 const ModalComponent: React.FC<ModalProps> = ({
   open = false,
+  icon,
   modalTitle,
   draggable = false,
   closeOnBackdropClick = true,
@@ -56,7 +60,14 @@ const ModalComponent: React.FC<ModalProps> = ({
   const renderTitle = () => {
     if (!modalTitle) { return null }
     if (typeof modalTitle === 'string') {
-      return <h6 className="modal-title">{modalTitle}</h6>;
+      return (
+        <h6 className="modal-title">
+          {
+            icon && React.Children.map(icon, (child) => child)
+          }
+          {modalTitle}
+        </h6>
+      );
     } else {
       return React.Children.map(modalTitle, (child) => child);
     }
@@ -160,14 +171,16 @@ export interface ConfirmModalProps {
 }
 
 const confirm = async ({
-  title,
-}: ConfirmModalProps) => {
+  title = 'Confirm',
+}) => {
   const container = document.createElement('div');
   document.body.appendChild(container);
   ReactDOM.render(
     <ModalComponent
       open={true}
       closeOnBackdropClick={false}
+      modalTitle={title}
+      icon={<FontAwesomeIcon icon={icons['faBell']} />}
       onClose={() => {
         ReactDOM.unmountComponentAtNode(container);
         container.remove();
