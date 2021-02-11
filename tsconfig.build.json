@@ -47,6 +47,5 @@
     "src/**/*.js",
     "typings/**/*.d.ts",
     "node_modules",
-    "examples"
   ]
 }

@@ -4,6 +4,7 @@ import BaseModal from '@material-ui/core/Modal';
 import Draggable from 'react-draggable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as icons from '@fortawesome/free-solid-svg-icons';
+import { faBell } from '@fortawesome/free-regular-svg-icons';
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
 
@@ -180,7 +181,7 @@ const confirm = async ({
       open={true}
       closeOnBackdropClick={false}
       modalTitle={title}
-      icon={<FontAwesomeIcon icon={icons['faBell']} />}
+      icon={<FontAwesomeIcon icon={icons.faExclamationTriangle} />}
       onClose={() => {
         ReactDOM.unmountComponentAtNode(container);
         container.remove();

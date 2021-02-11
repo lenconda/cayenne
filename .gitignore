@@ -20,3 +20,6 @@ package-lock.json
 
 # dist dir
 lib
+
+# umijs
+.umi

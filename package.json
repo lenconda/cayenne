@@ -20,11 +20,13 @@
   "scripts": {
     "test": "exit 0",
     "demo": "cross-env NODE_ENV=development webpack-dev-server --config config/webpack.config.js --mode=development --progress",
-    "build:js": "rimraf lib && tsc",
+    "build:js": "rimraf lib && tsc --build tsconfig.build.json",
     "build:css:nested": "sass src/index.scss lib/css/index.css",
     "build:css:compressed": "sass --style compressed src/index.scss lib/css/index.min.css",
     "build:css": "npm run build:css:nested && npm run build:css:compressed",
-    "build": "npm run build:js && npm run build:css && node scripts/copy-scss.js"
+    "build": "npm run build:js && npm run build:css && node scripts/copy-scss.js",
+    "docs:start": "dumi dev",
+    "docs:build": "dumi build"
   },
   "devDependencies": {
     "@babel/core": "7.2.2",
@@ -41,6 +43,7 @@
     "@types/react-router-dom": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
+    "@umijs/plugin-sass": "^1.1.1",
     "autoprefixer": "^9.0.0",
     "babel-eslint": "^10.0.2",
     "babel-loader": "8.0.5",
@@ -50,6 +53,7 @@
     "copy-webpack-plugin": "^5.0.3",
     "cross-env": "^5.2.0",
     "css-loader": "2.1.0",
+    "dumi": "^1.1.4",
     "ejs-loader": "^0.5.0",
     "eslint": "^6.1.0",
     "eslint-config-alloy": "^2.0.5",
