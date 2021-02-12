@@ -2,19 +2,16 @@ import React, { useMemo, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import BaseModal from '@material-ui/core/Modal';
 import Draggable from 'react-draggable';
-import Icon, { IconName, IconType } from '../Icon';
+import { IconConfig } from '../Icon';
+import Button from '../Button';
+import { generateIcon } from '../../utils/icons';
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
-
-export interface ModalIcon {
-  name: IconName;
-  type?: IconType;
-}
 
 export interface ModalComponentProps extends
   React.DetailedHTMLProps<React.BaseHTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   open?: boolean;
-  icon?: IconName | React.ReactNode | ModalIcon;
+  icon?: IconConfig;
   modalTitle?: string | React.ReactNode;
   draggable?: boolean;
   closeOnBackdropClick?: boolean;
@@ -76,25 +73,12 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
     }
   };
 
-  const renderIcon = () => {
-    if (typeof icon === 'string') {
-      return <Icon name={icon as IconName} className="icon" />;
-    } else if (React.isValidElement(icon)) {
-      return <>{React.Children.map(icon, (child) => child)}</>;
-    } else {
-      const { name, type = 'regular' } = icon as ModalIcon;
-      if (name && type) {
-        return <Icon name={name as IconName} type={type as IconType} className="icon" />;
-      }
-    }
-  };
-
   const renderTitle = () => {
     if (!modalTitle) { return null }
     if (typeof modalTitle === 'string') {
       return (
         <h6 className="modal-title">
-          {icon && renderIcon()}
+          {icon && generateIcon(icon)}
           {modalTitle}
         </h6>
       );
@@ -133,17 +117,17 @@ const ModalComponent: React.FC<ModalComponentProps> = ({
             footer
               ? <div className="modal-footer">{footer}</div>
               : <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
+                <Button
                   data-dismiss="modal"
+                  htmlType="button"
                   onClick={handleClose}
-                >{cancelButtonText}</button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
+                >{cancelButtonText}</Button>
+                <Button
+                  color="primary"
+                  htmlType="button"
+                  icon="faCheck"
                   onClick={handleConfirm}
-                >{confirmButtonText}</button>
+                >{confirmButtonText}</Button>
               </div>
           }
         </div>

@@ -15,7 +15,7 @@ module.exports = {
     },
   },
   rules: {
-    indent: ['error', 2, { ignoredNodes: ['JSXElement *'] }],
+    indent: 'off',
     '@typescript-eslint/indent': 'off',
     'react/jsx-indent-props': [
       'error',

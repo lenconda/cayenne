@@ -10,6 +10,13 @@ export type RegularIconName = Exclude<keyof typeof regularIcons, 'fa' | 'far'>;
 export type IconType = 'solid' | 'brands' | 'regular';
 export type IconName = SolidIconName | BrandsIconName | RegularIconName;
 
+export interface IconDescription {
+  name: IconName;
+  type?: IconType;
+}
+
+export type IconConfig = IconName | React.ReactNode | IconDescription;
+
 export interface IconComponentProps {
   /**
    * The name of icon
@@ -64,7 +71,7 @@ const Icon: React.FC<IconComponentProps> = ({
   return (
     iconComponent
       ? <FontAwesomeIcon
-          className={className}
+          className={`cayenne-icon ${className}`}
           icon={iconsMap[type][name]}
           style={iconStyleSheet}
           spin={spin}
