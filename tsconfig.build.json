@@ -2,8 +2,12 @@
   "extends": "./tsconfig.json",
   "include": ["src/**/*"],
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./lib"
+    "rootDir": "src",
+    "outDir": "lib",
+    "baseUrl": "src",
+    "paths": {
+      "@components/*": ["components/*"]
+    },
   },
   "exclude": [
     "config/**/*",

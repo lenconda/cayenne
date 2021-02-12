@@ -11,9 +11,29 @@ export type IconType = 'solid' | 'brands' | 'regular';
 export type IconName = SolidIconName | BrandsIconName | RegularIconName;
 
 export interface IconComponentProps {
-  type?: IconType;
+  /**
+   * The name of icon
+   */
   name: IconName;
+  /**
+   * Class name for icon component
+   * @default ''
+   */
   className?: string;
+  /**
+   * Font size of icon
+   */
+  fontSize?: number;
+  /**
+   * Spin or not
+   * @default false
+   */
+  spin?: boolean;
+  /**
+   * The type of icon
+   * @default 'solid'
+   */
+  type?: IconType;
 }
 
 const iconsMap = {
@@ -23,17 +43,33 @@ const iconsMap = {
 };
 
 const Icon: React.FC<IconComponentProps> = ({
-  type = 'regular',
+  type = 'solid',
   name,
   className = '',
+  fontSize,
+  spin = false
 }) => {
   const iconComponent = useMemo(() => {
     return iconsMap[type][name];
   }, [type, name]);
   const ref = useRef(null);
+  const iconStyleSheet = useMemo<React.CSSProperties>(() => {
+    const style: React.CSSProperties = {};
+    if (fontSize) {
+      style['fontSize'] = fontSize;
+    }
+    return style;
+  }, [fontSize]);
 
   return (
-    iconComponent ? <FontAwesomeIcon className={className} icon={iconsMap[type][name]} /> : null
+    iconComponent
+      ? <FontAwesomeIcon
+          className={className}
+          icon={iconsMap[type][name]}
+          style={iconStyleSheet}
+          spin={spin}
+        />
+      : null
   );
 };
 

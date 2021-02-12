@@ -11,9 +11,9 @@
     ],
     "plugins": [{ "name": "typescript-plugin-css-modules" }],
     "paths": {
-      "@components/*": ["components/*"]
+      "@components/*": ["src/components/*"]
     },
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "noImplicitAny": false,
     "skipLibCheck": true,
     "sourceMap": false,

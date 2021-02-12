@@ -1,16 +1,17 @@
 ---
 order: 1
 toc: 'menu'
-title: 'Components'
+title: 'Modal'
 nav:
   title: 'Components'
   order: 1
 ---
 
-# Components
+# Modal
 
-## Modal
+## Usages
 
 ### Basic Usage
 
 <code src="../../examples/modal/basic.tsx"></code>
+
