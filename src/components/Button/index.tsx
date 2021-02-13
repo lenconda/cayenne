@@ -11,6 +11,8 @@ export interface ButtonComponentProps
     React.BaseHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
+  active?: boolean;
+  block?: boolean;
   color?: ButtonType;
   disabled?: boolean;
   icon?: IconConfig;
@@ -32,6 +34,8 @@ const Button: React.FC<ButtonComponentProps> = ({
   size = 'medium',
   className = '',
   htmlType = 'button',
+  block = false,
+  active = false,
   ...props
 }) => {
   const classNames = useMemo(() => {
@@ -45,8 +49,14 @@ const Button: React.FC<ButtonComponentProps> = ({
         baseClassNames.add(currentClassName);
       }
     }
+    if (block) {
+      baseClassNames.add('btn-block');
+    }
+    if (active) {
+      baseClassNames.add('btn-active');
+    }
     return Array.from(baseClassNames).join(' ');
-  }, [loading, disabled, outlined, color]);
+  }, [loading, disabled, outlined, color, block]);
 
   return (
     <button

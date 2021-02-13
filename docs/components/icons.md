@@ -1,5 +1,5 @@
 ---
-order: 0
+order: 1
 toc: 'menu'
 title: 'Icons'
 nav:
